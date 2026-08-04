@@ -1,0 +1,26 @@
+.env
+node_modules
+
+# next.js
+.next/
+out/
+next-env.d.ts
+*.tsbuildinfo
+
+# vercel
+.vercel
+.env*
+
+# python
+__pycache__/
+*.pyc
+
+# os / editor junk
+.DS_Store
+.Rhistory
+
+# bkit 내부 런타임 상태 (앱 코드 아님)
+.bkit/
+
+# 검토 후 삭제 예정 (CLAUDE.md 작업 규칙 — 삭제 대신 여기로 옮겨둠)
+trash-can/
