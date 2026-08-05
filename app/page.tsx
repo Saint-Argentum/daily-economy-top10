@@ -135,11 +135,9 @@ const MARKET_KEYWORD_ALIASES: Record<string, string[]> = {
   wti: ["유가", "원유", "WTI"],
   brent: ["브렌트유", "브렌트"],
   usdkrw: ["환율", "달러", "원달러", "원화"],
-  usdjpy: ["엔달러"],
-  eurusd: ["유로달러"],
-  jpykrw: ["엔화", "엔저", "엔고"],
-  eurkrw: ["유로"],
-  cnykrw: ["위안화", "위안"],
+  usdjpy: ["엔화", "엔달러", "엔저", "엔고"],
+  eurusd: ["유로", "유로달러"],
+  usdcny: ["위안화", "위안"],
 };
 
 function findMatchedKeyword(seriesKey: string, keywords: Keyword[]): string | null {

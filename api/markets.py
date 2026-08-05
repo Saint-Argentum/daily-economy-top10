@@ -41,23 +41,12 @@ SERIES = [
     {"key": "dxy", "name": "달러인덱스(DXY)", "ticker": "DX-Y.NYB", "unit": "pt"},
     {"key": "wti", "name": "WTI유", "ticker": "CL=F", "unit": "달러"},
     {"key": "brent", "name": "브렌트유", "ticker": "BZ=F", "unit": "달러"},
+    # 환율은 사용자 요청으로 USD/KRW·EUR/USD·USD/JPY·USD/CNY·DXY 5개만 유지한다
+    # (엔/원, 유로/원, 위안/원 같은 원화 크로스 환율은 제외).
     {"key": "usdkrw", "name": "원/달러", "ticker": "KRW=X", "unit": "원"},
-    {"key": "usdjpy", "name": "달러/엔", "ticker": "JPY=X", "unit": "엔"},
     {"key": "eurusd", "name": "유로/달러", "ticker": "EURUSD=X", "unit": "달러"},
-    {"key": "jpykrw", "name": "엔/원 (100엔)", "ticker": "JPYKRW=X", "unit": "원", "multiply": 100},
-    {"key": "eurkrw", "name": "유로/원", "ticker": "EURKRW=X", "unit": "원"},
-    # 위안/원 직접 크로스(CNYKRW=X)는 야후에 하루치만 있어서, 데이터가 꽉 찬
-    # KRWCNY=X(원 기준 위안화)를 가져와 역수를 취해 위안/원으로 바꾼다. 다만 클릭했을 때
-    # 이동할 야후 페이지는 우리가 표시하는 방향과 같은 CNYKRW=X로 보낸다 — KRWCNY=X 페이지를
-    # 보여주면 0.0047처럼 우리 화면 숫자(212원)와 안 맞아 보여서 헷갈린다.
-    {
-        "key": "cnykrw",
-        "name": "위안/원",
-        "ticker": "KRWCNY=X",
-        "linkTicker": "CNYKRW=X",
-        "unit": "원",
-        "invert": True,
-    },
+    {"key": "usdjpy", "name": "달러/엔", "ticker": "JPY=X", "unit": "엔"},
+    {"key": "usdcny", "name": "달러/위안", "ticker": "CNY=X", "unit": "위안"},
 ]
 
 CACHE_TTL_SECONDS = 30 * 60

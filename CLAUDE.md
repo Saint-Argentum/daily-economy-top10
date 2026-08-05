@@ -23,7 +23,7 @@
 - **프론트엔드**: Next.js (App Router), TypeScript, Tailwind CSS
 - **백엔드**: Python 서버리스 함수 3개, Vercel Python 런타임에 배포 — Node/Next.js API 라우트가 아닙니다
   - `/api/keywords.py` — 뉴스 키워드·감성 분석
-  - `/api/markets.py` — 시장 지표(지수·금리·환율·원자재 16종), keywords.py와 무관한 별도 함수
+  - `/api/markets.py` — 시장 지표(지수·금리·환율·원자재 14종. 환율은 원달러·유로달러·달러엔·달러위안·달러인덱스만), keywords.py와 무관한 별도 함수
   - `/api/summary.py` — AI 이슈 요약(M8). keywords.py/markets.py가 이미 수집한 데이터를 POST로 받아 요약만 생성 (뉴스·시세를 다시 수집하지 않음)
 - **자연어 처리**: 형태소 분석은 `kiwipiepy` 사용 (`konlpy`/Okt는 Java 의존성 때문에 서버리스 환경에서 동작하지 않아 사용하지 않음)
 - **수집**: `feedparser`(RSS) + `beautifulsoup4`(HTML 엔티티·태그 정리) + `yfinance`(시장 지표, API 키 불필요)
