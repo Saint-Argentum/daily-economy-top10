@@ -17,7 +17,7 @@ PRD.md에 정의된 필수 기능(M0~M4)을 모두 구현해, 로그인 없이 �
 
 1. Next.js 프로젝트 초기화 (TypeScript + Tailwind CSS + App Router)
 2. Python 서버리스 함수 뼈대 `/api/keywords.py` 생성 — 더미 JSON을 반환해 프론트에서 호출되는지 확인
-3. `feedparser`로 연합인포맥스 RSS 6개 피드 수집 — 제목·링크·발행시각 추출
+3. `feedparser`로 연합인포맥스 RSS 5개 피드 수집 — 제목·링크·발행시각 추출 ("정책/금융" 피드는 정치·사법 노이즈 때문에 제외)
 4. 기사 `link` 기준 중복 제거 로직 추가
 5. BeautifulSoup으로 HTML 엔티티 정리 + 제목 앞 대괄호 말머리 제거
 6. `pubDate` 기준 최근 24시간 이내(접속 시점 기준 롤링 윈도우) 기사만 필터링

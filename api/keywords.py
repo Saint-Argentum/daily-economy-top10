@@ -3,7 +3,7 @@
 
 지금까지 구현된 단계 (PLAN.md 기준):
   2단계: 뼈대 + 더미 JSON
-  3단계: RSS 6개 피드 수집 (feedparser)
+  3단계: RSS 5개 피드 수집 (feedparser) — "정책/금융" 피드는 정치 노이즈 때문에 제외
   4단계: 기사 링크(link) 기준 중복 제거
   5단계: BeautifulSoup으로 HTML 엔티티 정리 + 대괄호 말머리 제거
   6단계: pubDate 기준 최근 24시간 이내(접속 시점 기준 롤링 윈도우) 기사만 필터링
@@ -91,8 +91,8 @@ def load_noise_topics() -> set[str]:
     """noise_topics.txt(프로젝트 루트)를 읽는다.
 
     stopwords.txt(개별 단어 제외)와 달리, 여기 있는 단어가 제목에 있으면 기사
-    자체를 통째로 뺀다 — "정책/금융" 피드에 섞여 들어오는 순수 정치·사법 기사를
-    거르기 위함 (사용자 확인 후 추가, PRD.md §5 M0 참고).
+    자체를 통째로 뺀다 — 애초에 "정책/금융" 피드 자체를 제외했지만(FEEDS 참고),
+    다른 피드에도 섞여 들어올 수 있는 정치·사법 기사에 대한 이중 안전장치다.
     """
     path = Path(__file__).resolve().parent.parent / "noise_topics.txt"
     words: set[str] = set()
@@ -179,10 +179,11 @@ KST = timezone(timedelta(hours=9))
 # 실제로는 이미 한국 시간(KST) 기준 값이다 (UTC가 아님, 직접 확인함).
 PUB_DATE_FORMAT = "%Y-%m-%d %H:%M:%S"
 
-# 연합인포맥스 RSS 6개 피드 목록 (PRD.md §5 M0 표와 동일하게 유지할 것)
+# 연합인포맥스 RSS 5개 피드 목록 (PRD.md §5 M0 표와 동일하게 유지할 것)
+# "정책/금융" 피드는 순수 정치·사법 기사(수사권 등)가 너무 많이 섞여 들어와서
+# 사용자 요청으로 완전히 제외했다 (noise_topics.txt로 걸러내는 대신 피드 자체를 뺌).
 FEEDS = [
     {"name": "전체기사", "category": "전체", "url": "https://news.einfomax.co.kr/rss/allArticle.xml"},
-    {"name": "정책/금융", "category": "정책·금융", "url": "https://news.einfomax.co.kr/rss/S1N15.xml"},
     {"name": "채권/외환", "category": "채권·외환", "url": "https://news.einfomax.co.kr/rss/S1N16.xml"},
     {"name": "해외주식", "category": "해외주식", "url": "https://news.einfomax.co.kr/rss/S1N21.xml"},
     {"name": "국제뉴스", "category": "국제", "url": "https://news.einfomax.co.kr/rss/S1N23.xml"},
@@ -224,7 +225,7 @@ def _fetch_one(feed: dict) -> dict:
 
 
 def fetch_all_feeds() -> list[dict]:
-    """6개 피드를 동시에 가져온다. 피드별 성공 여부를 함께 반환해 M3 표시에 쓴다."""
+    """5개 피드를 동시에 가져온다. 피드별 성공 여부를 함께 반환해 M3 표시에 쓴다."""
     results = []
     with ThreadPoolExecutor(max_workers=len(FEEDS)) as pool:
         futures = [pool.submit(_fetch_one, feed) for feed in FEEDS]
