@@ -87,6 +87,32 @@ def load_stopwords() -> set[str]:
 STOPWORDS = load_stopwords()
 
 
+def load_noise_topics() -> set[str]:
+    """noise_topics.txt(프로젝트 루트)를 읽는다.
+
+    stopwords.txt(개별 단어 제외)와 달리, 여기 있는 단어가 제목에 있으면 기사
+    자체를 통째로 뺀다 — "정책/금융" 피드에 섞여 들어오는 순수 정치·사법 기사를
+    거르기 위함 (사용자 확인 후 추가, PRD.md §5 M0 참고).
+    """
+    path = Path(__file__).resolve().parent.parent / "noise_topics.txt"
+    words: set[str] = set()
+    with open(path, encoding="utf-8") as f:
+        for line in f:
+            line = line.strip()
+            if not line or line.startswith("#"):
+                continue
+            words.add(line)
+    return words
+
+
+NOISE_TOPICS = load_noise_topics()
+
+
+def is_noise_article(title: str) -> bool:
+    """제목에 정치·사법 절차 용어가 하나라도 있으면 기사를 통째로 노이즈로 본다."""
+    return any(term in title for term in NOISE_TOPICS)
+
+
 def load_econ_dict() -> dict[str, int]:
     """econNLPdic.txt(재무 특화 60개)를 읽는다. POS -> +2, NEG -> -2로 환산한다."""
     path = Path(__file__).resolve().parent.parent / "econNLPdic.txt"
@@ -453,6 +479,7 @@ def build_response() -> dict:
         entry
         for entry in cleaned_entries
         if is_within_last_24h(parse_pub_date_kst(entry["pubDate"]), window_start_kst)
+        and not is_noise_article(entry["title"])
     ]
 
     top_keywords = aggregate_keywords(recent_entries)

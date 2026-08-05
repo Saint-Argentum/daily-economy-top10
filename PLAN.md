@@ -37,8 +37,11 @@ PRD.md에 정의된 필수 기능(M0~M4)을 모두 구현해, 로그인 없이 �
 20. 화면 상단 집계 기준 표시 (집계 기간(최근 24시간), 집계 기사 수, 마지막 갱신 시각, 정상 응답 피드 수)
 20-1. 키워드 클릭 시 해당 기사 제목·원문 링크 목록 펼치기 (PRD §5 M5)
 20-2. 순위 변동(▲▼) 표시 (PRD §5 M6)
-20-3. 주요 시장 지표 8종 + 1개월 그래프 (PRD §5 M7, `/api/markets.py` + `yfinance`)
+20-3. 주요 시장 지표 16종 + 1개월 그래프 (PRD §5 M7, `/api/markets.py` + `yfinance`)
+20-4. 지표-키워드 하이라이트 연동 — Top10에 관련 단어가 있으면 해당 지표 카드 강조 (PRD §5 M7)
+20-5. 오늘의 경제 이슈 AI 요약 (PRD §5 M8, `/api/summary.py` + OpenAI `gpt-4o-mini`)
+20-6. 키워드 노이즈 제거 — `stopwords.txt`에 "대통령"/"전환" 추가, 정치·사법 기사를 통째로 거르는 `noise_topics.txt` 신설
 21. 예외 상황 안내 처리 — 사용자 요청으로 건너뜀
 22. 화면 출처 표기 추가 (연합인포맥스, KnuSentiLex, KOSELF 논문)
 23. PC 레이아웃 정리 및 모바일 세로 정렬 대응 — 사용자 요청으로 건너뜀
-24. Vercel 배포 및 실제 동작 확인
+24. Vercel 배포 및 실제 동작 확인 — **완료**. 라이브: https://my-app-wheat-kappa-35.vercel.app / 저장소: https://github.com/Saint-Argentum/daily-economy-top10
